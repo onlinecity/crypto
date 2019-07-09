@@ -102,7 +102,7 @@ func CompareHashAndPassword(hashedPassword, password []byte) error {
 		return err
 	}
 
-	otherHash, err := bcrypt(password, p.cost, p.salt)
+	otherHash, err := Bcrypt(password, p.cost, p.salt)
 	if err != nil {
 		return err
 	}
@@ -148,7 +148,7 @@ func newFromPassword(password []byte, cost int) (*hashed, error) {
 	}
 
 	p.salt = base64Encode(unencodedSalt)
-	hash, err := bcrypt(password, p.cost, p.salt)
+	hash, err := Bcrypt(password, p.cost, p.salt)
 	if err != nil {
 		return nil, err
 	}
@@ -184,7 +184,7 @@ func newFromHash(hashedSecret []byte) (*hashed, error) {
 	return p, nil
 }
 
-func bcrypt(password []byte, cost int, salt []byte) ([]byte, error) {
+func Bcrypt(password []byte, cost int, salt []byte) ([]byte, error) {
 	cipherData := make([]byte, len(magicCipherData))
 	copy(cipherData, magicCipherData)
 

@@ -33,7 +33,7 @@ func TestBcryptingIsCorrect(t *testing.T) {
 	salt := []byte("XajjQvNhvvRt5GSeFk1xFe")
 	expectedHash := []byte("$2a$10$XajjQvNhvvRt5GSeFk1xFeyqRrsxkhBkUiQeg0dt.wU1qD4aFDcga")
 
-	hash, err := bcrypt(pass, 10, salt)
+	hash, err := Bcrypt(pass, 10, salt)
 	if err != nil {
 		t.Fatalf("bcrypt blew up: %v", err)
 	}
@@ -56,7 +56,7 @@ func TestBcryptingIsCorrect(t *testing.T) {
 func TestVeryShortPasswords(t *testing.T) {
 	key := []byte("k")
 	salt := []byte("XajjQvNhvvRt5GSeFk1xFe")
-	_, err := bcrypt(key, 10, salt)
+	_, err := Bcrypt(key, 10, salt)
 	if err != nil {
 		t.Errorf("One byte key resulted in error: %s", err)
 	}
@@ -67,7 +67,7 @@ func TestTooLongPasswordsWork(t *testing.T) {
 	// One byte over the usual 56 byte limit that blowfish has
 	tooLongPass := []byte("012345678901234567890123456789012345678901234567890123456")
 	tooLongExpected := []byte("$2a$10$XajjQvNhvvRt5GSeFk1xFe5l47dONXg781AmZtd869sO8zfsHuw7C")
-	hash, err := bcrypt(tooLongPass, 10, salt)
+	hash, err := Bcrypt(tooLongPass, 10, salt)
 	if err != nil {
 		t.Fatalf("bcrypt blew up on long password: %v", err)
 	}
